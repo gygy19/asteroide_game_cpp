@@ -12,8 +12,10 @@
 
 #include "Game.hpp"
 
+#include <sstream>
+
 Game::Game() {
-	this->_fps = 1000 / 200;
+	this->_fps = 1000 / 60;
 }
 
 Game::~Game() {
@@ -55,6 +57,7 @@ void				Game::start(void) {
 	getmaxyx(stdscr, this->_y, this->_x);
 	this->_window			= newwin(this->_y - 1, this->_x - 1, 0, 0);
 	nodelay(this->_window, true);
+	keypad(this->_window, true);
 	this->_player = new Spaceship(this->_x / 2, this->_y - 1);
 	this->run();
 }
@@ -83,7 +86,6 @@ void				Game::run(void) {
 		clear();
 		//WORK
 		this->_player->update(this->keys);
-		mvprintw(2, 2, "TEST, time:%d, fps:%d\n", (Game::getCurrentTime() - start_while), this->_fps);
 		refresh();
 	}
 }

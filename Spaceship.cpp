@@ -45,13 +45,13 @@ down : 258
 */
 void		Spaceship::update(bool *keys) {
 
-	if (keys[68])
+	if (keys[KEY_LEFT])
 		this->x--;
-	if (keys[67])
+	if (keys[KEY_RIGHT])
 		this->x++;
-	if (keys[65])
+	if (keys[KEY_UP])
 		this->y--;
-	if (keys[66])
+	if (keys[KEY_DOWN])
 		this->y++;
 	mvprintw(0, 0, "left : %d\n", KEY_LEFT);
 	mvprintw(1, 1, "right : %d\n", KEY_RIGHT);
