@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 
-#include "ft_retro.h"
+#include "Game.hpp"
+
 
 
 int		main(void)
@@ -19,6 +20,8 @@ int		main(void)
 	while (42) 
 	{
 		initscr();
+		noecho();
+		cbreak();
 
 		endwin();
 	}
