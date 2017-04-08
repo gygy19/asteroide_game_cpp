@@ -17,15 +17,20 @@
 #include <iostream>
 #include <curses.h>
 
-class Spaceship : public GameEntity {
+#include "AEntity.hpp"
+
+#define FORM "<~!~>"
+
+class Spaceship : public AEntity {
 
 public:
-	Spaceship();
+	Spaceship(int x, int y);
 	~Spaceship(void);
 
-	Spaceship(Spaceship const& src);
-	Spaceship& 	operator=(Spaceship const & rhs);
-
+				Spaceship(Spaceship const& rhs);
+	Spaceship&	operator=(Spaceship const & rhs);
+	void		spawn(void);
+	void		update(bool *keys);
 };
 
 

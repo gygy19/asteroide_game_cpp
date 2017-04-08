@@ -3,7 +3,12 @@
 CC = clang++
 CFLAGS = -Werror -Wall -Wextra
 
-FILES = main.cpp 
+FILES = \
+		main.cpp			\
+		Game.cpp			\
+		Spaceship.cpp		\
+		AEntity.cpp
+
 OFILES = $(FILES:.cpp=.o)
 
 NAME = ft_retro

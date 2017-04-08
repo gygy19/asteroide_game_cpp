@@ -17,13 +17,16 @@
 
 int		main(void)
 {
-	while (42) 
-	{
-		initscr();
-		noecho();
-		cbreak();
+	Game	*game = new Game();
 
-		endwin();
-	}
+	initscr();
+	clear();
+	noecho();
+	cbreak();
+
+	game->start();
+
+	endwin();
+	delete game;
 	return 0;
 }
