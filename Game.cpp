@@ -27,7 +27,27 @@ Game::Game( Game const& src) {
 	return;
 }
 
-Game& Game::operator=(Game const & rhs) {
+unsigned long int	Game::getTime(void) {
+	return (time(NULL) - this->_start_time);
+}
+
+int					Game::getRandom_value(size_t min, size_t max)
+{
+	return (((time(NULL) + rand()) % (max + min)) - min);
+}
+
+void				Game::start(void) {
+	this->_start_time		= time(NULL);
+	this->_score			= 0;
+	
+	this->run();
+}
+
+void				Game::run(void) {
+	
+}
+
+Game				&Game::operator=(Game const & rhs) {
 
 	
 

@@ -18,12 +18,22 @@
 
 class Game {
 
+private:
+
+	long int			_start_time;
+	int					_score;
+
 public:
 	Game();
 	~Game(void);
 
-	Game(Game const& src);
-	Game& 	operator=(Game const & rhs);
+						Game(Game const& src);
+	Game				&operator=(Game const & rhs);
+
+	unsigned long int	getTime(void);
+	int					getRandom_value(size_t min, size_t max);
+	void				run(void);
+	void				start(void);
 
 };
 
