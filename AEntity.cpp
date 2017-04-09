@@ -16,8 +16,10 @@ AEntity::AEntity(int team, int type, int x, int y, std::string symbol, int hit_m
 
 	this->team		= team;
 	this->type		= type;
-	this->x			= x;
-	this->y			= y;
+	this->start_x	= x;
+	this->start_y	= y;
+	this->x			= this->start_x;
+	this->y			= this->start_y;
 	this->hit_max	= hit_max;
 	this->hit		= this->hit_max;
 	this->symbol	= symbol;
@@ -51,6 +53,14 @@ int				AEntity::getTeam(void) {
 
 int				AEntity::getType(void) {
 	return (this->type);
+}
+
+int				AEntity::getStartX(void) {
+	return (this->start_x);
+}
+
+int				AEntity::getStartY(void) {
+	return (this->start_y);
 }
 
 int				AEntity::getX(void) {

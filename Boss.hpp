@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Projectil.hpp                                      :+:      :+:    :+:   */
+/*   Boss.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/09 01:16:48 by jguyet            #+#    #+#             */
-/*   Updated: 2017/04/09 01:16:50 by jguyet           ###   ########.fr       */
+/*   Created: 2017/04/09 09:49:31 by jguyet            #+#    #+#             */
+/*   Updated: 2017/04/09 09:49:32 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROJECTIL_CLASS_HPP
-# define PROJECTIL_CLASS_HPP
+#ifndef BOSS_CLASS_HPP
+# define BOSS_CLASS_HPP
 
 #include <iostream>
 #include <string>
@@ -19,19 +19,15 @@
 
 #include "AEntity.hpp"
 
-class Projectil : public AEntity {
-
-private:
-	int						_range;
+class Boss : public AEntity {
 
 public:
-	Projectil(int team, int type, int x, int y, int range, int color);
-	~Projectil();
+	Boss(int team, int type, int x, int y, int color);
+	~Boss();
 
-							Projectil(Projectil const &rhs);
-	Projectil				&operator=(Projectil const &rhs);
+							Boss(Boss const &rhs);
+	Boss					&operator=(Boss const &rhs);
 	void					explode(void);
-	int						getRange(void);
 };
 
 #endif

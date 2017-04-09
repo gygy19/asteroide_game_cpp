@@ -20,6 +20,8 @@
 class AEntity {
 
 protected:
+	int			start_x;
+	int			start_y;
 	int			x;
 	int			y;
 	int			hit_max;
@@ -40,6 +42,8 @@ public:
 	void				move(int x, int y);
 	int					getType(void);
 	int					getTeam(void);
+	int					getStartX(void);
+	int					getStartY(void);
 	int					getX(void);
 	int					getY(void);
 	int					getWidth(void);

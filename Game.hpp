@@ -22,6 +22,7 @@
 #include "AEntity.hpp"
 #include "Spaceship.hpp"
 #include "Projectil.hpp"
+#include "Boss.hpp"
 
 #define RED_TEAM 1
 #define BLUE_TEAM 0
@@ -30,6 +31,7 @@
 #define ENEMY 2
 #define ENEMY_PROJECTIL 3
 #define PLAYER_PROJECTIL 4
+#define BOSS 5
 
 class Game {
 
@@ -77,6 +79,7 @@ public:
 	void						enemyShoot(void);
 
 	void						checkColision(void);
+	void						deleteOutOfRangedProjectil(void);
 	void						deleteOutOfMapEntity(void);
 
 	AEntity						*getEntityByPos(int x, int y);

@@ -12,7 +12,8 @@
 
 #include "Projectil.hpp"
 
-Projectil::Projectil(int team, int type, int x, int y, int color) : AEntity(team, type, x, y, "|", 1, color) {
+Projectil::Projectil(int team, int type, int x, int y, int range, int color) : AEntity(team, type, x, y, "|", 1, color) {
+	this->_range = range;
 	return ;
 }
 
@@ -29,7 +30,12 @@ Projectil::Projectil(Projectil const& rhs) : AEntity(rhs) {
 Projectil		&Projectil::operator=(Projectil const & rhs) {
 	this->x = rhs.x;
 	this->y = rhs.y;
+	this->_range = rhs._range;
 	return *this;
+}
+
+int				Projectil::getRange(void) {
+	return (this->_range);
 }
 
 void			Projectil::explode(void) {

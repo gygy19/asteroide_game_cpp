@@ -54,7 +54,11 @@ unsigned long int	Game::getTime(void) {
 */
 int					Game::getRandom_value(size_t min, size_t max)
 {
-	return (((Game::getTime()) % (max + min)) - min);
+	int random = ((Game::getTime()) % (max + min));
+
+	if (random < (int)min)
+		random = min;
+	return (random);
 }
 
 /*
@@ -145,6 +149,8 @@ void				Game::run(void) {
 		this->pressKeyShip(this->keys);
 		//add Enemy
 		this->addEnemy();
+		//remove all outOfRanged projectil
+		this->deleteOutOfRangedProjectil();
 		//remove all outed entity
 		this->deleteOutOfMapEntity();
 		//print all output
@@ -169,8 +175,8 @@ void				Game::run(void) {
 }
 
 void				Game::addEnemy(void) {
-	std::string symbols[2]	= {"{/\\/|\\/\\}", "<-.->"};
-	std::string	ship		= symbols[1];
+	std::string symbols[3]	= {"{/\\/|\\/\\}", "<-.->", "<--->"};
+	std::string	ship		= symbols[Game::getRandom_value(1, 2)];
 	int	hit					= 1;
 
 	if (Game::getRandom_value(1,20) < 3)
@@ -193,7 +199,7 @@ void				Game::enemyShoot(void) {
 	{
 		if (tmp->entity->getType() == ENEMY && Game::getRandom_value(1,10) > 8)
 		{
-			Projectil *projectil = new Projectil(RED_TEAM, ENEMY_PROJECTIL, tmp->entity->getX() + 2, tmp->entity->getY() + 1, COLOR_RED);
+			Projectil *projectil = new Projectil(RED_TEAM, ENEMY_PROJECTIL, tmp->entity->getX() + 2, tmp->entity->getY() + 1, 10, COLOR_RED);
 			this->addEntity(projectil);
 		}
 		tmp = tmp->right;
@@ -331,6 +337,23 @@ void				Game::deleteOutOfMapEntity(void) {
 	}
 }
 
+void				Game::deleteOutOfRangedProjectil(void) {
+	t_entity *tmp;
+	t_entity *next;
+
+	tmp = this->entity;
+	while (tmp != NULL)
+	{
+		next = tmp->right;
+		if (tmp->entity->getType() == ENEMY_PROJECTIL)
+		{
+			if (((dynamic_cast<Projectil*>(tmp->entity))->getY() - (dynamic_cast<Projectil*>(tmp->entity))->getStartY()) > (dynamic_cast<Projectil*>(tmp->entity))->getRange()) 
+				removeEntity(tmp->entity);
+		}
+		tmp = next;
+	}
+}
+
 /*
 **Print all entity pixels
 */
@@ -384,7 +407,7 @@ void				Game::pressKeyShip(bool *keys) {
 		this->moveEntity(1, 0, 1);
 	if (keys[32] == true)
 	{
-		Projectil *projectil = new Projectil(BLUE_TEAM, PLAYER_PROJECTIL, this->_player->getX() + 2, this->_player->getY() - 1, COLOR_YELLOW);
+		Projectil *projectil = new Projectil(BLUE_TEAM, PLAYER_PROJECTIL, this->_player->getX() + 2, this->_player->getY() - 1, -1, COLOR_YELLOW);
 		this->addEntity(projectil);
 	}
 }
