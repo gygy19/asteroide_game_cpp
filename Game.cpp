@@ -157,7 +157,11 @@ void				Game::run(void) {
 		this->update();
 		//refresh output
 		refresh();
-
+		if (this->_player->getHitPoint() <= 0)
+		{
+			this->gameOver();
+			return ;
+		}
 		// check screen resize
 		if (size == 60)
 		{
@@ -222,6 +226,7 @@ void				Game::gameOver(void) {
 		}
 		tmp = tmp->right;
 	}
+	removeEntity(this->_player);
 	clear();
 	for (int i = 0; i < this->_x; i++)
 	{
@@ -266,17 +271,11 @@ void				Game::checkColision(void) {
 						explode = true;
 						colled->takeDamage(1);//take damage for target
 						tmp->entity->takeDamage(1);//take damage for caster
-						if (colled->getHitPoint() <= 0)//if target is dead
-						{
+						if (colled->getHitPoint() <= 0 && colled->getType() != PLAYER)//if target is dead
 							removeEntity(colled);
-							if (colled->getType() == 1)
-							{
-								this->gameOver();
-								return ;
-							}
-						}
 						if (tmp->entity->getType() == PLAYER_PROJECTIL\
-							|| tmp->entity->getType() == ENEMY_PROJECTIL)
+							|| tmp->entity->getType() == ENEMY_PROJECTIL
+							|| tmp->entity->getType() == ENEMY)
 						{
 							tmp->entity->explode();//projectil explode
 							removeEntity(tmp->entity);//remove projectil
