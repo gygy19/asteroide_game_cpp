@@ -50,7 +50,6 @@ public:
 	void						start(void);
 
 	static unsigned long int	getCurrentTime(void);
-
 };
 
 

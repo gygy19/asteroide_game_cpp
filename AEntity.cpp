@@ -18,6 +18,7 @@ AEntity::AEntity(int x, int y, int hit_max) {
 	this->y			= y;
 	this->hit_max	= hit_max;
 	this->hit		= this->hit_max;
+	this->projectil	= NULL;
 }
 
 AEntity::~AEntity() {
@@ -40,4 +41,66 @@ AEntity&		AEntity::operator=(AEntity const & rhs) {
 
 void			AEntity::spawn(void) {
 
+}
+
+void			AEntity::shoot(bool *keys) {
+	(void)keys;
+}
+
+void			AEntity::addProjectil(Projectil *projectil)
+{
+	t_projectil *tmp;
+	t_projectil *current = new t_projectil;
+
+	current->projectil = projectil;
+	current->right = NULL;
+	current->left = NULL;
+	tmp = this->projectil;
+	if (tmp == NULL)
+	{
+		this->projectil = current;
+		return ;
+	}
+	while (tmp->right)
+		tmp = tmp->right;
+	tmp->right = current;
+	current->left = tmp;
+}
+
+
+void			AEntity::removeProjectil(Projectil *projectil)
+{
+	t_projectil *tmp;
+
+	tmp = this->projectil;
+	while (tmp != NULL)
+	{
+		if (tmp->projectil == projectil)
+		{
+			if (tmp->left != NULL && tmp->right != NULL)
+			{
+				tmp->right->left = tmp->left;
+				tmp->left->right = tmp->right;
+			}
+			else if (tmp->left != NULL)
+			{
+				tmp->left->right = NULL;
+			}
+			else if (tmp->right != NULL)
+			{
+				tmp->right->left = NULL;
+			}
+			if (this->projectil->projectil == projectil)
+			{
+				if (tmp->left != NULL)
+					this->projectil = tmp->left;
+				else
+					this->projectil = NULL;
+			}
+			break ;
+		}
+		tmp = tmp->right;
+	}
+	delete tmp;
+	delete projectil;
 }

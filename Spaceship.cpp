@@ -34,8 +34,22 @@ Spaceship&	Spaceship::operator=(Spaceship const & rhs) {
 
 void		Spaceship::spawn(void) {
 	mvprintw(this->y, this->x, FORM);
+
+	t_projectil *projectil = this->projectil;
+
+	while (projectil != NULL)
+	{
+		projectil->projectil->update();
+		projectil = projectil->right;
+	}
 }
 
+void		Spaceship::shoot(bool *keys) {
+	if (keys[32] == false)
+		return ;
+	Projectil *projectil = new Projectil(this->x + 2, this->y - 1, 1);
+	this->addProjectil(projectil);
+}
 
 /*
 left : 260
@@ -53,9 +67,6 @@ void		Spaceship::update(bool *keys) {
 		this->y--;
 	if (keys[KEY_DOWN])
 		this->y++;
-	mvprintw(0, 0, "left : %d\n", KEY_LEFT);
-	mvprintw(1, 1, "right : %d\n", KEY_RIGHT);
-	mvprintw(2, 2, "up : %d\n", KEY_UP);
-	mvprintw(3, 3, "down : %d\n", KEY_DOWN);
+	this->shoot(keys);
 	this->spawn();
 }

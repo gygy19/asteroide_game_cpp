@@ -16,6 +16,8 @@
 #include <iostream>
 #include <curses.h>
 
+#include "Projectil.hpp"
+
 class AEntity {
 
 protected:
@@ -23,6 +25,15 @@ protected:
 	int			y;
 	int			hit_max;
 	int			hit;
+
+	typedef struct			s_projectil
+	{
+		Projectil			*projectil;
+		struct s_projectil	*left;
+		struct s_projectil	*right;
+	}						t_projectil;
+
+	t_projectil				*projectil;
 
 public:
 	AEntity(int x, int y, int hit_max);
@@ -32,6 +43,10 @@ public:
 	AEntity& 			operator=(AEntity const & rhs);
 
 	virtual void		spawn(void);
+	virtual void		shoot(bool *shoot);
+
+	void				addProjectil(Projectil *projectil);
+	void				removeProjectil(Projectil *projectil);
 
 };
 

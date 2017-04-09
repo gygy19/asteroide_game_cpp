@@ -31,6 +31,7 @@ public:
 	Spaceship&	operator=(Spaceship const & rhs);
 	void		spawn(void);
 	void		update(bool *keys);
+	void		shoot(bool *keys);
 };
 
 

@@ -12,10 +12,8 @@
 
 #include "Game.hpp"
 
-#include <sstream>
-
 Game::Game() {
-	this->_fps = 1000 / 60;
+	this->_fps = 1000000 / 60;
 }
 
 Game::~Game() {

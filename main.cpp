@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "Game.hpp"
-
-
 
 int		main(void)
 {
@@ -23,6 +20,7 @@ int		main(void)
 	clear();
 	noecho();
 	cbreak();
+	curs_set(FALSE);
 
 	game->start();
 
