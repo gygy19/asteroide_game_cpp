@@ -12,7 +12,7 @@
 
 #include "Spaceship.hpp"
 
-Spaceship::Spaceship(int type, int x, int y, int color) : AEntity(type, x, y, "<~^~>", 5, color) {
+Spaceship::Spaceship(int team, int type, int x, int y, std::string symbol, int hit, int color) : AEntity(team, type, x, y, symbol, hit, color) {
 	return ;
 }
 
@@ -30,4 +30,8 @@ Spaceship&	Spaceship::operator=(Spaceship const & rhs) {
 	this->x = rhs.x;
 	this->y = rhs.y;
 	return *this;
+}
+
+void			Spaceship::explode(void) {
+
 }

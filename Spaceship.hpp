@@ -23,11 +23,12 @@
 class Spaceship : public AEntity {
 
 public:
-	Spaceship(int type, int x, int y, int color);
+	Spaceship(int team, int type, int x, int y, std::string symbol, int hit, int color);
 	~Spaceship(void);
 
-				Spaceship(Spaceship const& rhs);
-	Spaceship&	operator=(Spaceship const & rhs);
+							Spaceship(Spaceship const& rhs);
+	Spaceship&				operator=(Spaceship const & rhs);
+	void					explode(void);
 };
 
 

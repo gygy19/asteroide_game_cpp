@@ -8,9 +8,8 @@ FILES = \
 		Game.cpp			\
 		Spaceship.cpp		\
 		AEntity.cpp			\
-		Projectil.cpp		\
-		Enemy.cpp
-
+		Projectil.cpp
+		
 OFILES = $(FILES:.cpp=.o)
 
 NAME = ft_retro

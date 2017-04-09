@@ -53,15 +53,21 @@ void				Game::start(void) {
 	this->_score			= 0;
 	this->_x				= 0;
 	this->_y				= 0;
-
+	this->_player			= new Spaceship(BLUE_TEAM, PLAYER, this->_x / 2, this->_y - 1, "<~^~>", 5, COLOR_YELLOW);
+	
+	//get window x and window y
 	getmaxyx(stdscr, this->_y, this->_x);
+
 	this->_window			= newwin(this->_y - 1, this->_x - 1, 0, 0);
+
+	//unlock wgetch
 	nodelay(this->_window, true);
+	//read special characters
 	keypad(this->_window, true);
 
-	this->_player = new Spaceship(1, this->_x / 2, this->_y - 1, COLOR_YELLOW);
-
+	//add player on entity list
 	this->addEntity(this->_player);
+	//launch game
 	this->run();
 }
 
@@ -69,15 +75,10 @@ void				Game::hookEntryKeys(void)
 {
 	int key = 0;
 
-	/*if (GetAsyncKeyState(VK_DOWN))
-		this->keys[KEY_DOWN] = true;
-	if (GetAsyncKeyState(VK_RIGHT))
-		this->keys[KEY_RIGHT] = true;
-	if (GetAsyncKeyState(VK_UP))
-		this->keys[KEY_UP] = true;
-	if (GetAsyncKeyState(VK_LEFT))
-		this->keys[KEY_RIGHT] = true;*/
+	//Hook entry key
 	key = wgetch(this->_window);
+
+	//add key hooked to true
 	this->keys[key] = true;
 }
 
@@ -87,6 +88,8 @@ void				Game::run(void) {
 	int i = 0;
 	int size = 0;
 	int score = 0;
+
+
 	while (true)
 	{
 		this->initkeys();
@@ -97,32 +100,40 @@ void				Game::run(void) {
 				break ;
 		}
 		start_while = Game::getTime();
+		//clear screen
 		clear();
 
+		//print header
 		mvprintw(0, 0, "score : %d", score);
 		mvprintw(0, this->_x - 8, "pdv : %d", this->_player->getHitPoint());
-		//Colission
+
+		//Colission before move enemy
 		this->checkColision();
-		//enemy
+		//move enemy
 		if (i > 3)
 		{
-			this->moveEntity(2, 0, 1);
+			this->moveEntity(ENEMY, 0, 1);
+			this->enemyShoot();
 			i = 0;
 		}
-		//Colission
+		//Colission after enemy moved
 		this->checkColision();
-		//projectil enemy
-		this->moveEntity(3, 0, 1);
-		//projectil
-		this->moveEntity(4, 0, -1);
-		//WORK
+		//move enemy projectil
+		this->moveEntity(ENEMY_PROJECTIL, 0, 1);
+		//move player projectil
+		this->moveEntity(PLAYER_PROJECTIL, 0, -1);
+		//check player keys entry
 		this->pressKeyShip(this->keys);
 		//add Enemy
 		this->addEnemy();
-
-		this->update();
+		//remove all outed entity
 		this->deleteOutOfMapEntity();
+		//print all output
+		this->update();
+		//refresh output
 		refresh();
+
+		// check screen resize
 		if (size == 60)
 		{
 			int x, y;
@@ -139,12 +150,34 @@ void				Game::run(void) {
 }
 
 void				Game::addEnemy(void) {
-	int random = Game::getRandom_value(1,10);
+	std::string symbols[2]	= {"{/\\/|\\/\\}", "<-.->"};
+	std::string	ship		= symbols[1];
+	int	hit					= 1;
 
-	if (random == 2)
+	if (Game::getRandom_value(1,20) < 3)
 	{
-		Enemy *enemy = new Enemy(2, Game::getRandom_value(3,this->_x - 4),1, COLOR_RED);
+		if (Game::getRandom_value(1,10) == 9)
+		{
+			ship = symbols[0];
+			hit = 2;
+		}
+		Spaceship *enemy = new Spaceship(RED_TEAM, ENEMY, Game::getRandom_value(3,this->_x - 4), 1, ship, hit, COLOR_RED);
 		this->addEntity(enemy);
+	}
+}
+
+void				Game::enemyShoot(void) {
+	t_entity *tmp;
+
+	tmp = this->entity;
+	while (tmp != NULL)
+	{
+		if (tmp->entity->getType() == ENEMY && Game::getRandom_value(1,10) > 8)
+		{
+			Projectil *projectil = new Projectil(RED_TEAM, ENEMY_PROJECTIL, tmp->entity->getX() + 2, tmp->entity->getY() + 1, COLOR_RED);
+			this->addEntity(projectil);
+		}
+		tmp = tmp->right;
 	}
 }
 
@@ -192,37 +225,53 @@ void				Game::checkColision(void) {
 		next = tmp->right;
 		if (tmp->entity->getType() != 1)
 		{
-			int entity_width = tmp->entity->getWidth() + 1;
-			while (entity_width >= 0)
-			{
-				AEntity *colled = this->getEntityByPos((tmp->entity->getX() + entity_width), tmp->entity->getY());
+			bool explode = false;
+			int entity_height = tmp->entity->getHeight() - 1;
 
-				if (colled != NULL && colled->getType() != tmp->entity->getType())
+			while (entity_height >= 0 && explode == false)//check in all entity Height
+			{
+				int entity_width = tmp->entity->getWidth() + 1;
+
+				while (entity_width >= 0 && explode == false)//check in all entity Width
 				{
-					colled->takeDamage(1);
-					tmp->entity->takeDamage(1);
-					if (colled->getHitPoint() <= 0)
+					AEntity *colled = this->getEntityByPos((tmp->entity->getX() + entity_width), tmp->entity->getY());
+
+					if (colled != NULL && colled->getTeam() != tmp->entity->getTeam())//if collision OK
 					{
-						removeEntity(colled);
-						if (colled->getType() == 1)
+						explode = true;
+						colled->takeDamage(1);//take damage for target
+						tmp->entity->takeDamage(1);//take damage for caster
+						if (colled->getHitPoint() <= 0)//if target is dead
 						{
-							this->gameOver();
-							return ;
+							removeEntity(colled);
+							if (colled->getType() == 1)
+							{
+								this->gameOver();
+								return ;
+							}
 						}
-						//Evite pointer NULL
-						this->checkColision();
+						if (tmp->entity->getType() == PLAYER_PROJECTIL\
+							|| tmp->entity->getType() == ENEMY_PROJECTIL)
+						{
+							tmp->entity->explode();//projectil explode
+							removeEntity(tmp->entity);//remove projectil
+						}
 					}
-					if (tmp->entity->getHitPoint() <= 0)
-							removeEntity(tmp->entity);
-					break ;
+					entity_width--;
 				}
-				entity_width--;
-			} 
+				entity_height--;
+			}
 		}
 		tmp = next;
 	}
 }
 
+/*
+**Search Entity in entity list
+**Params :
+**int x
+**int y
+*/
 AEntity				*Game::getEntityByPos(int x, int y) {
 	t_entity *tmp;
 
@@ -241,6 +290,11 @@ AEntity				*Game::getEntityByPos(int x, int y) {
 	return (NULL);
 }
 
+/*
+**Check all entity out of map and remove it
+**Params :
+**(void) 
+*/
 void				Game::deleteOutOfMapEntity(void) {
 	t_entity *tmp;
 	t_entity *next;
@@ -298,7 +352,7 @@ void				Game::pressKeyShip(bool *keys) {
 		this->moveEntity(1, 0, 1);
 	if (keys[32] == true)
 	{
-		Projectil *projectil = new Projectil(4, this->_player->getX() + 2, this->_player->getY() - 1, COLOR_YELLOW);
+		Projectil *projectil = new Projectil(BLUE_TEAM, PLAYER_PROJECTIL, this->_player->getX() + 2, this->_player->getY() - 1, COLOR_YELLOW);
 		this->addEntity(projectil);
 	}
 }
@@ -356,6 +410,8 @@ void				Game::removeEntity(AEntity *entity)
 		}
 		tmp = tmp->right;
 	}
+	if (tmp == NULL)
+		return ;
+	delete tmp->entity;
 	delete tmp;
-	//delete entity;
 }

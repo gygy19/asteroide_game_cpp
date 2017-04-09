@@ -12,7 +12,7 @@
 
 #include "Projectil.hpp"
 
-Projectil::Projectil(int type, int x, int y, int color) : AEntity(type, x, y, "|", 1, color) {
+Projectil::Projectil(int team, int type, int x, int y, int color) : AEntity(team, type, x, y, "|", 1, color) {
 	return ;
 }
 
@@ -30,4 +30,13 @@ Projectil		&Projectil::operator=(Projectil const & rhs) {
 	this->x = rhs.x;
 	this->y = rhs.y;
 	return *this;
+}
+
+void			Projectil::explode(void) {
+	attron(COLOR_PAIR(this->type));
+	mvprintw(this->y, this->x, "-");
+	mvprintw(this->y, this->x + this->getWidth(), "-");
+	mvprintw(this->y - 1, this->x + (this->getWidth() / 2), "|");
+	mvprintw(this->y + 1, this->x + (this->getWidth() / 2), "|");
+	attroff(COLOR_PAIR(this->type));
 }

@@ -12,8 +12,9 @@
 
 #include "AEntity.hpp"
 
-AEntity::AEntity(int type, int x, int y, std::string symbol, int hit_max, int color) {
+AEntity::AEntity(int team, int type, int x, int y, std::string symbol, int hit_max, int color) {
 
+	this->team		= team;
 	this->type		= type;
 	this->x			= x;
 	this->y			= y;
@@ -42,6 +43,10 @@ AEntity&		AEntity::operator=(AEntity const & rhs) {
 	return *this;
 }
 
+int				AEntity::getTeam(void) {
+	return (this->team);
+}
+
 int				AEntity::getType(void) {
 	return (this->type);
 }
@@ -56,6 +61,18 @@ int				AEntity::getY(void) {
 
 int				AEntity::getWidth(void) {
 	return (strlen(symbol.c_str()));
+}
+
+int				AEntity::getHeight(void) {
+	int height = 1;
+	int i = 0;
+	while (symbol[i])
+	{
+		if (symbol[i] == '\n')
+			height++;
+		i++;
+	}
+	return (height);
 }
 
 int				AEntity::getHitPoint(void) {

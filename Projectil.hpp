@@ -22,11 +22,12 @@
 class Projectil : public AEntity {
 
 public:
-	Projectil(int type, int x, int y, int color);
+	Projectil(int team, int type, int x, int y, int color);
 	~Projectil();
 
 							Projectil(Projectil const &rhs);
 	Projectil				&operator=(Projectil const &rhs);
+	void					explode(void);
 };
 
 #endif

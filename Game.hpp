@@ -21,8 +21,15 @@
 
 #include "AEntity.hpp"
 #include "Spaceship.hpp"
-#include "Enemy.hpp"
 #include "Projectil.hpp"
+
+#define RED_TEAM 1
+#define BLUE_TEAM 0
+
+#define PLAYER 1
+#define ENEMY 2
+#define ENEMY_PROJECTIL 3
+#define PLAYER_PROJECTIL 4
 
 class Game {
 
@@ -67,6 +74,7 @@ public:
 	void						pressKeyShip(bool *keys);
 
 	void						addEnemy(void);
+	void						enemyShoot(void);
 
 	void						checkColision(void);
 	void						deleteOutOfMapEntity(void);
