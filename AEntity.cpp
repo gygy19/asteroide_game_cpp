@@ -23,10 +23,12 @@ AEntity::AEntity(int team, int type, int x, int y, std::string symbol, int hit_m
 	this->symbol	= symbol;
 	this->color		= color;
 	init_pair(this->type, this->color, COLOR_BLACK);
+	return ;
 }
 
 AEntity::~AEntity() {
- }
+	return ;
+}
 
 AEntity::AEntity(AEntity const& rhs) {
 	

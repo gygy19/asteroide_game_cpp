@@ -32,33 +32,46 @@ Game				&Game::operator=(Game const & rhs) {
 	return *this;
 }
 
+/*
+**Set all keys to released
+*/
 void				Game::initkeys(void) {
 	for (int i = 0; i < 262; i++)
 		this->keys[i] = false;
 }
 
+/*
+**Get Microsecond time
+*/
 unsigned long int	Game::getTime(void) {
 	struct timeval tv;
 	gettimeofday(&tv, 0);
 	return (tv.tv_usec);
 }
 
+/*
+**get random value between min and max
+*/
 int					Game::getRandom_value(size_t min, size_t max)
 {
 	return (((Game::getTime()) % (max + min)) - min);
 }
 
+/*
+** set all started variable and run game
+*/
 void				Game::start(void) {
 	this->_start_time		= time(NULL);
 	this->_score			= 0;
 	this->_x				= 0;
 	this->_y				= 0;
-	this->_player			= new Spaceship(BLUE_TEAM, PLAYER, this->_x / 2, this->_y - 1, "<~^~>", 5, COLOR_YELLOW);
-	
 	//get window x and window y
 	getmaxyx(stdscr, this->_y, this->_x);
 
+	//create ncurses window
 	this->_window			= newwin(this->_y - 1, this->_x - 1, 0, 0);
+	//create player ship
+	this->_player			= new Spaceship(BLUE_TEAM, PLAYER, this->_x / 2, this->_y - 1, "<~^~>", 5, COLOR_YELLOW);
 
 	//unlock wgetch
 	nodelay(this->_window, true);
@@ -71,6 +84,9 @@ void				Game::start(void) {
 	this->run();
 }
 
+/*
+**Hook keys entry
+*/
 void				Game::hookEntryKeys(void)
 {
 	int key = 0;
@@ -82,6 +98,9 @@ void				Game::hookEntryKeys(void)
 	this->keys[key] = true;
 }
 
+/*
+**Runnable member methods
+*/
 void				Game::run(void) {
 
 	int start_while = 0;
@@ -312,6 +331,9 @@ void				Game::deleteOutOfMapEntity(void) {
 	}
 }
 
+/*
+**Print all entity pixels
+*/
 void				Game::update(void) {
 	t_entity *tmp;
 
@@ -323,6 +345,13 @@ void				Game::update(void) {
 	}
 }
 
+/*
+**Move entity by type to entity->y + (y arg) and entity->x + (x arg)
+**Params:
+**int type
+**int x
+**int y
+*/
 void				Game::moveEntity(int type, int x, int y) {
 	t_entity *tmp;
 
@@ -337,6 +366,9 @@ void				Game::moveEntity(int type, int x, int y) {
 	}
 }
 
+/*
+**check all entry to effet and launch effect if good condition.
+*/
 void				Game::pressKeyShip(bool *keys) {
 	if ((this->_player->getX() + this->_player->getWidth()) > this->_x)
 		this->moveEntity(1, -((this->_player->getX() + this->_player->getWidth()) - this->_x), 0);
@@ -357,6 +389,9 @@ void				Game::pressKeyShip(bool *keys) {
 	}
 }
 
+/*
+**Add entity in list of Game::entity
+*/
 void				Game::addEntity(AEntity *entity) {
 	t_entity *tmp;
 	t_entity *current = new t_entity;
@@ -376,7 +411,9 @@ void				Game::addEntity(AEntity *entity) {
 	current->left = tmp;
 }
 
-
+/*
+**Remove Entity if contained
+*/
 void				Game::removeEntity(AEntity *entity)
 {
 	t_entity *tmp;
