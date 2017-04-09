@@ -14,26 +14,19 @@
 # define PROJECTIL_CLASS_HPP
 
 #include <iostream>
+#include <string>
 #include <curses.h>
 
-#define FORM_PROJECTIL "|"
+#include "AEntity.hpp"
 
-class Projectil {
-
-private:
-	int						x;
-	int						y;
-	int						dir;
+class Projectil : public AEntity {
 
 public:
-	Projectil(int x, int y, int dir);
+	Projectil(int type, int x, int y, int color);
 	~Projectil();
 
 							Projectil(Projectil const &rhs);
 	Projectil				&operator=(Projectil const &rhs);
-
-	bool					update(void);
-	void					spawn(void);
 };
 
 #endif

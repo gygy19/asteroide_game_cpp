@@ -20,6 +20,7 @@ int		main(void)
 	clear();
 	noecho();
 	cbreak();
+	start_color();
 	curs_set(FALSE);
 
 	game->start();

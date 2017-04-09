@@ -14,9 +14,8 @@
 # define AENTITY_CLASS_H
 
 #include <iostream>
+#include <string>
 #include <curses.h>
-
-#include "Projectil.hpp"
 
 class AEntity {
 
@@ -25,29 +24,25 @@ protected:
 	int			y;
 	int			hit_max;
 	int			hit;
-
-	typedef struct			s_projectil
-	{
-		Projectil			*projectil;
-		struct s_projectil	*left;
-		struct s_projectil	*right;
-	}						t_projectil;
-
-	t_projectil				*projectil;
+	int			type;
+	std::string	symbol;
+	int			color;
 
 public:
-	AEntity(int x, int y, int hit_max);
+	AEntity(int type, int x, int y, std::string symbol, int hit_max, int color);
 	~AEntity(void);
 
 						AEntity(AEntity const& rhs);
 	AEntity& 			operator=(AEntity const & rhs);
 
-	virtual void		spawn(void);
-	virtual void		shoot(bool *shoot);
-
-	void				addProjectil(Projectil *projectil);
-	void				removeProjectil(Projectil *projectil);
-
+	void				update(void);
+	void				move(int x, int y);
+	int					getType(void);
+	int					getX(void);
+	int					getY(void);
+	int					getWidth(void);
+	int					getHitPoint(void);
+	void				takeDamage(int damage);
 };
 
 

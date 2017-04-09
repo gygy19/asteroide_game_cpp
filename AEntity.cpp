@@ -12,13 +12,16 @@
 
 #include "AEntity.hpp"
 
-AEntity::AEntity(int x, int y, int hit_max) {
+AEntity::AEntity(int type, int x, int y, std::string symbol, int hit_max, int color) {
 
+	this->type		= type;
 	this->x			= x;
 	this->y			= y;
 	this->hit_max	= hit_max;
 	this->hit		= this->hit_max;
-	this->projectil	= NULL;
+	this->symbol	= symbol;
+	this->color		= color;
+	init_pair(this->type, this->color, COLOR_BLACK);
 }
 
 AEntity::~AEntity() {
@@ -39,68 +42,37 @@ AEntity&		AEntity::operator=(AEntity const & rhs) {
 	return *this;
 }
 
-void			AEntity::spawn(void) {
-
+int				AEntity::getType(void) {
+	return (this->type);
 }
 
-void			AEntity::shoot(bool *keys) {
-	(void)keys;
+int				AEntity::getX(void) {
+	return (this->x);
 }
 
-void			AEntity::addProjectil(Projectil *projectil)
-{
-	t_projectil *tmp;
-	t_projectil *current = new t_projectil;
-
-	current->projectil = projectil;
-	current->right = NULL;
-	current->left = NULL;
-	tmp = this->projectil;
-	if (tmp == NULL)
-	{
-		this->projectil = current;
-		return ;
-	}
-	while (tmp->right)
-		tmp = tmp->right;
-	tmp->right = current;
-	current->left = tmp;
+int				AEntity::getY(void) {
+	return (this->y);
 }
 
+int				AEntity::getWidth(void) {
+	return (strlen(symbol.c_str()));
+}
 
-void			AEntity::removeProjectil(Projectil *projectil)
-{
-	t_projectil *tmp;
+int				AEntity::getHitPoint(void) {
+	return (this->hit);
+}
 
-	tmp = this->projectil;
-	while (tmp != NULL)
-	{
-		if (tmp->projectil == projectil)
-		{
-			if (tmp->left != NULL && tmp->right != NULL)
-			{
-				tmp->right->left = tmp->left;
-				tmp->left->right = tmp->right;
-			}
-			else if (tmp->left != NULL)
-			{
-				tmp->left->right = NULL;
-			}
-			else if (tmp->right != NULL)
-			{
-				tmp->right->left = NULL;
-			}
-			if (this->projectil->projectil == projectil)
-			{
-				if (tmp->left != NULL)
-					this->projectil = tmp->left;
-				else
-					this->projectil = NULL;
-			}
-			break ;
-		}
-		tmp = tmp->right;
-	}
-	delete tmp;
-	delete projectil;
+void			AEntity::takeDamage(int damage) {
+	this->hit -= damage;
+}
+
+void			AEntity::update(void) {
+	attron(COLOR_PAIR(this->type));
+	mvprintw(this->y, this->x, this->symbol.c_str());
+	attroff(COLOR_PAIR(this->type));
+}
+
+void			AEntity::move(int x, int y) {
+	this->x += x;
+	this->y += y;
 }

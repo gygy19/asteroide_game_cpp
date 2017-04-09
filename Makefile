@@ -8,7 +8,8 @@ FILES = \
 		Game.cpp			\
 		Spaceship.cpp		\
 		AEntity.cpp			\
-		Projectil.cpp
+		Projectil.cpp		\
+		Enemy.cpp
 
 OFILES = $(FILES:.cpp=.o)
 

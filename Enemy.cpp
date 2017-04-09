@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Projectil.cpp                                      :+:      :+:    :+:   */
+/*   Enemy.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/09 01:16:57 by jguyet            #+#    #+#             */
-/*   Updated: 2017/04/09 01:16:58 by jguyet           ###   ########.fr       */
+/*   Created: 2017/04/09 03:48:37 by jguyet            #+#    #+#             */
+/*   Updated: 2017/04/09 03:48:38 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Projectil.hpp"
+#include "Enemy.hpp"
 
-Projectil::Projectil(int type, int x, int y, int color) : AEntity(type, x, y, "|", 1, color) {
+Enemy::Enemy(int type, int x, int y, int color) : AEntity(type, x, y, "<_._>", 1, color) {
 	return ;
 }
 
-Projectil::~Projectil() {
-	return ;
-}
+Enemy::~Enemy() {
+ }
 
-Projectil::Projectil(Projectil const& rhs) : AEntity(rhs) {
-	
+Enemy::Enemy( Enemy const& rhs) : AEntity(rhs) {
+
 	*this = rhs;
 	return;
 }
 
-Projectil		&Projectil::operator=(Projectil const & rhs) {
+Enemy&	Enemy::operator=(Enemy const & rhs) {
+
 	this->x = rhs.x;
 	this->y = rhs.y;
 	return *this;

@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Projectil.cpp                                      :+:      :+:    :+:   */
+/*   Enemy.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jguyet <jguyet@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/09 01:16:57 by jguyet            #+#    #+#             */
-/*   Updated: 2017/04/09 01:16:58 by jguyet           ###   ########.fr       */
+/*   Created: 2017/04/09 03:48:43 by jguyet            #+#    #+#             */
+/*   Updated: 2017/04/09 03:48:44 by jguyet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Projectil.hpp"
+#ifndef ENEMY_CLASS_HPP
+# define ENEMY_CLASS_HPP
 
-Projectil::Projectil(int type, int x, int y, int color) : AEntity(type, x, y, "|", 1, color) {
-	return ;
-}
+#include <iostream>
+#include <string>
+#include <curses.h>
 
-Projectil::~Projectil() {
-	return ;
-}
+#include "AEntity.hpp"
 
-Projectil::Projectil(Projectil const& rhs) : AEntity(rhs) {
-	
-	*this = rhs;
-	return;
-}
+class Enemy : public AEntity {
 
-Projectil		&Projectil::operator=(Projectil const & rhs) {
-	this->x = rhs.x;
-	this->y = rhs.y;
-	return *this;
-}
+public:
+	Enemy(int type, int x, int y, int color);
+	~Enemy(void);
+
+				Enemy(Enemy const& rhs);
+	Enemy&	operator=(Enemy const & rhs);
+};
+
+#endif

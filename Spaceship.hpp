@@ -15,23 +15,19 @@
 # define SPACESHIP_CLASS_H
 
 #include <iostream>
+#include <string>
 #include <curses.h>
 
 #include "AEntity.hpp"
 
-#define FORM "<~!~>"
-
 class Spaceship : public AEntity {
 
 public:
-	Spaceship(int x, int y);
+	Spaceship(int type, int x, int y, int color);
 	~Spaceship(void);
 
 				Spaceship(Spaceship const& rhs);
 	Spaceship&	operator=(Spaceship const & rhs);
-	void		spawn(void);
-	void		update(bool *keys);
-	void		shoot(bool *keys);
 };
 
 
