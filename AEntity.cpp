@@ -47,6 +47,11 @@ AEntity&		AEntity::operator=(AEntity const & rhs) {
 	return *this;
 }
 
+std::string		AEntity::getShipType(void) {
+	return (this->symbol);
+}
+
+
 int				AEntity::getTeam(void) {
 	return (this->team);
 }
@@ -92,6 +97,7 @@ int				AEntity::getHitPoint(void) {
 }
 
 void			AEntity::takeDamage(int damage) {
+	
 	this->hit -= damage;
 }
 

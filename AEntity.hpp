@@ -22,8 +22,7 @@ class AEntity {
 protected:
 	int			start_x;
 	int			start_y;
-	int			x;
-	int			y;
+	
 	int			hit_max;
 	int			hit;
 	int			type;
@@ -38,6 +37,9 @@ public:
 						AEntity(AEntity const& rhs);
 	AEntity& 			operator=(AEntity const & rhs);
 
+	int			x;
+	int			y;
+	std::string			getShipType(void);
 	void				update(void);
 	void				move(int x, int y);
 	int					getType(void);

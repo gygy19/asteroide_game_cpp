@@ -27,22 +27,31 @@
 #define RED_TEAM 1
 #define BLUE_TEAM 0
 
+#define EASY 0
+#define	AVERAGE 1
+#define	HARD 2
+
 #define PLAYER 1
 #define ENEMY 2
 #define ENEMY_PROJECTIL 3
 #define PLAYER_PROJECTIL 4
 #define BOSS 5
 
+#define BIG_SHIP "{/\\/|\\/\\}"
+#define LITTLE_SHIP "<--->"
+#define MEDIUM_SHIP "<-.->"
+
 class Game {
 
 private:
 
 	long int				_start_time;
-	int						_score;
+	unsigned int			_playerScore;
 	bool					keys[261];
 	int						_x;
 	int						_y;
 	int						_fps;
+	
 	WINDOW					*_window;
 	Spaceship				*_player;
 
@@ -57,14 +66,21 @@ private:
 
 	void					initkeys(void);
 	void					hookEntryKeys(void);
+	bool					_checkSpecialCommand(void) const;
+
+
+
+	
 
 public:
 	Game();
 	~Game(void);
 
+
 								Game(Game const& src);
 	Game						&operator=(Game const & rhs);
 
+	void						init(void);
 	void						run(void);
 	void						start(void);
 
@@ -88,6 +104,7 @@ public:
 
 	static unsigned long int	getTime(void);
 	static int					getRandom_value(size_t min, size_t max);
+	int 						difficulty;
 };
 
 

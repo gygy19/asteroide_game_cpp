@@ -16,15 +16,11 @@ int		main(void)
 {
 	Game	*game = new Game();
 
-	initscr();
-	clear();
-	noecho();
-	cbreak();
-	start_color();
-	curs_set(FALSE);
+	
+    initscr(); // initialize Ncurses
 
-	game->start();
 
+	game->init();
 	endwin();
 	delete game;
 	return 0;

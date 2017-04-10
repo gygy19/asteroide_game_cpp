@@ -9,7 +9,7 @@ FILES = \
 		Spaceship.cpp		\
 		AEntity.cpp			\
 		Projectil.cpp		\
-		Boss.cpp
+		Boss.cpp		\
 		
 OFILES = $(FILES:.cpp=.o)
 
